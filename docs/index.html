@@ -322,6 +322,306 @@
   }
 
   .footer a { color: #3a7bd5; text-decoration: none; }
+
+  /* Pipeline Section */
+  .pipeline-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 40px 40px;
+  }
+
+  @media(max-width:900px) { .pipeline-section { padding: 40px 16px 20px; } }
+
+  .pipeline-section h2 {
+    font-size: 1.5em;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .pipeline-section .subtitle {
+    color: #6a7a8a;
+    font-size: 0.9em;
+    margin-bottom: 40px;
+  }
+
+  /* Pipeline Flow */
+  .pipeline-flow {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    margin-bottom: 50px;
+  }
+
+  @media(max-width:900px) {
+    .pipeline-flow { flex-direction: column; align-items: stretch; }
+    .pipeline-arrow { transform: rotate(90deg); align-self: center; }
+  }
+
+  .pipeline-step {
+    flex: 1;
+    min-width: 160px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid #1a2a3a;
+    border-radius: 14px;
+    padding: 20px 16px;
+    text-align: center;
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .pipeline-step:hover {
+    border-color: #00d2ff;
+    transform: translateY(-3px);
+  }
+
+  .pipeline-step .step-icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+
+  .pipeline-step .step-title {
+    font-size: 0.85em;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .pipeline-step .step-detail {
+    font-size: 0.72em;
+    color: #6a7a8a;
+    line-height: 1.5;
+  }
+
+  .pipeline-step .step-tag {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.65em;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(0,210,255,0.1);
+    color: #00d2ff;
+  }
+
+  .pipeline-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    color: #2a3a4a;
+    font-size: 1.4em;
+    flex-shrink: 0;
+    margin-top: 40px;
+  }
+
+  /* Feature Importance Chart */
+  .fi-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 50px;
+  }
+
+  @media(max-width:900px) { .fi-section { grid-template-columns: 1fr; } }
+
+  .fi-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid #1a2a3a;
+    border-radius: 14px;
+    padding: 24px;
+  }
+
+  .fi-card h3 {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #00d2ff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+  }
+
+  .fi-bar-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+
+  .fi-bar-row .fi-label {
+    width: 130px;
+    font-size: 0.78em;
+    color: #8892b0;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .fi-bar-row .fi-track {
+    flex: 1;
+    height: 18px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .fi-bar-row .fi-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+
+  .fi-bar-row .fi-val {
+    width: 45px;
+    font-size: 0.75em;
+    font-weight: 600;
+    color: #e0e0e0;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* Model comparison */
+  .model-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 50px;
+  }
+
+  @media(max-width:900px) { .model-compare { grid-template-columns: 1fr; } }
+
+  .model-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid #1a2a3a;
+    border-radius: 14px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .model-card.winner { border-color: rgba(0,210,255,0.4); }
+  .model-card.winner::after {
+    content: '✓ USED IN APP';
+    position: absolute;
+    top: 12px;
+    right: -28px;
+    background: #00d2ff;
+    color: #0a0a0a;
+    font-size: 0.6em;
+    font-weight: 700;
+    padding: 3px 35px;
+    transform: rotate(45deg);
+  }
+
+  .model-card h3 {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .model-card .model-subtitle {
+    font-size: 0.78em;
+    color: #5a6a7a;
+    margin-bottom: 16px;
+  }
+
+  .model-stat-row {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+  }
+
+  .model-stat {
+    text-align: center;
+  }
+
+  .model-stat .ms-val {
+    font-size: 1.6em;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .model-stat .ms-label {
+    font-size: 0.65em;
+    color: #5a6a7a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .model-card.winner .ms-val {
+    background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Data sources */
+  .sources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .source-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid #1a2a3a;
+    border-radius: 10px;
+    padding: 16px;
+    transition: border-color 0.2s;
+  }
+
+  .source-card:hover { border-color: #2a4a6a; }
+
+  .source-card .src-icon { font-size: 1.5em; margin-bottom: 8px; }
+
+  .source-card .src-name {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .source-card .src-detail {
+    font-size: 0.72em;
+    color: #5a6a7a;
+    line-height: 1.5;
+  }
+
+  .source-card a {
+    color: #3a7bd5;
+    text-decoration: none;
+    font-size: 0.72em;
+  }
+
+  .section-divider {
+    border: none;
+    border-top: 1px solid #141e2a;
+    margin: 10px 0 30px;
+  }
+
+  .subsection-title {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  /* Formula breakdown */
+  .formula-box {
+    background: rgba(0,210,255,0.05);
+    border: 1px solid rgba(0,210,255,0.15);
+    border-radius: 12px;
+    padding: 20px 24px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.85em;
+    color: #c0d8e8;
+    margin-bottom: 20px;
+    overflow-x: auto;
+  }
+
+  .formula-box .comment { color: #4a6a5a; }
+  .formula-box .highlight { color: #00d2ff; font-weight: 600; }
+  .formula-box .num { color: #ffa726; }
 </style>
 </head>
 <body>
@@ -379,9 +679,199 @@
   </div>
 </div>
 
+<!-- ═══════════ HOW IT WORKS ═══════════ -->
+<div class="pipeline-section">
+  <h2>How We Arrive at the Numbers</h2>
+  <p class="subtitle">A five-stage ML pipeline transforms raw economic data into city-level cost predictions</p>
+
+  <!-- Pipeline Flow Diagram -->
+  <div class="pipeline-flow">
+    <div class="pipeline-step">
+      <div class="step-icon">📡</div>
+      <div class="step-title">Data Collection</div>
+      <div class="step-detail">Pull 10 FRED time series (PPI, CPI, GDP, rates) + BLS regional CPI + city-level CCI indices</div>
+      <div class="step-tag">1,204 FRED rows · 50 cities</div>
+    </div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">
+      <div class="step-icon">🧹</div>
+      <div class="step-title">Preprocessing</div>
+      <div class="step-detail">Merge datasets, handle missing values, align temporal data, normalize scales</div>
+      <div class="step-tag">2,984 clean records</div>
+    </div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">
+      <div class="step-icon">🔧</div>
+      <div class="step-title">Feature Engineering</div>
+      <div class="step-detail">Weighted CCI, labor premium, CCI deviation, log(area), combined material rate, PPI YoY change</div>
+      <div class="step-tag">28 features total</div>
+    </div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">
+      <div class="step-icon">🧠</div>
+      <div class="step-title">Model Training</div>
+      <div class="step-detail">CatBoost with region-stratified 5-fold cross-validation. Native categorical encoding for city/region/state</div>
+      <div class="step-tag">CatBoost Regressor</div>
+    </div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">
+      <div class="step-icon">📊</div>
+      <div class="step-title">Prediction</div>
+      <div class="step-detail">Input city + project type + area → model returns $/sqft with regional adjustment baked in</div>
+      <div class="step-tag">R² = 0.920</div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- CCI Formula Breakdown -->
+  <div class="subsection-title">🧮 How CCI Drives the Prediction</div>
+  <div class="formula-box">
+    <span class="comment">// Each city has 3 cost indices (national baseline = 100)</span><br>
+    <span class="highlight">Weighted CCI</span> = <span class="num">0.45</span> × Material_CCI + <span class="num">0.40</span> × Labor_CCI + <span class="num">0.15</span> × Equipment_CCI<br><br>
+    <span class="comment">// Example: New York, NY</span><br>
+    Weighted CCI = <span class="num">0.45</span> × <span class="num">118.2</span> + <span class="num">0.40</span> × <span class="num">148.5</span> + <span class="num">0.15</span> × <span class="num">105.3</span> = <span class="highlight">128.4</span><br><br>
+    <span class="comment">// This tells the model: "NYC construction costs ~28% above national average"</span><br>
+    <span class="comment">// Labor CCI = 148.5 → labor is 48.5% more expensive than baseline</span><br>
+    <span class="comment">// The model also learns: labor_premium = labor_cci - mat_cci = 30.3 (labor dominates in NYC)</span>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- Model A vs Model B -->
+  <div class="subsection-title">🔬 Why Regional Features Matter</div>
+  <div class="model-compare">
+    <div class="model-card">
+      <h3>Model A — Baseline</h3>
+      <div class="model-subtitle">7 features · No regional cost indices</div>
+      <div class="model-stat-row">
+        <div class="model-stat"><div class="ms-val">0.872</div><div class="ms-label">R² Score</div></div>
+        <div class="model-stat"><div class="ms-val">7.47%</div><div class="ms-label">MAPE</div></div>
+        <div class="model-stat"><div class="ms-val">$22.81</div><div class="ms-label">RMSE</div></div>
+      </div>
+    </div>
+    <div class="model-card winner">
+      <h3>Model B — Regional-Aware</h3>
+      <div class="model-subtitle">28 features · CCI + macro + derived features</div>
+      <div class="model-stat-row">
+        <div class="model-stat"><div class="ms-val">0.920</div><div class="ms-label">R² Score</div></div>
+        <div class="model-stat"><div class="ms-val">6.30%</div><div class="ms-label">MAPE</div></div>
+        <div class="model-stat"><div class="ms-val">$18.03</div><div class="ms-label">RMSE</div></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- Feature Importance -->
+  <div class="subsection-title">📈 What Drives the Prediction</div>
+  <div class="fi-section">
+    <div class="fi-card">
+      <h3>Global Feature Importance</h3>
+      <div class="fi-bar-row">
+        <div class="fi-label">Project Type</div>
+        <div class="fi-track"><div class="fi-fill" style="width:100%;background:linear-gradient(90deg,#00d2ff,#3a7bd5)"></div></div>
+        <div class="fi-val">~50%</div>
+      </div>
+      <div class="fi-bar-row">
+        <div class="fi-label">Weighted CCI</div>
+        <div class="fi-track"><div class="fi-fill" style="width:36%;background:linear-gradient(90deg,#00d2ff,#3a7bd5)"></div></div>
+        <div class="fi-val">~18%</div>
+      </div>
+      <div class="fi-bar-row">
+        <div class="fi-label">Labor CCI</div>
+        <div class="fi-track"><div class="fi-fill" style="width:24%;background:linear-gradient(90deg,#00d2ff,#3a7bd5)"></div></div>
+        <div class="fi-val">~12%</div>
+      </div>
+      <div class="fi-bar-row">
+        <div class="fi-label">Material CCI</div>
+        <div class="fi-track"><div class="fi-fill" style="width:16%;background:linear-gradient(90deg,#00d2ff,#3a7bd5)"></div></div>
+        <div class="fi-val">~8%</div>
+      </div>
+      <div class="fi-bar-row">
+        <div class="fi-label">Area (sqft)</div>
+        <div class="fi-track"><div class="fi-fill" style="width:10%;background:linear-gradient(90deg,#00d2ff,#3a7bd5)"></div></div>
+        <div class="fi-val">~5%</div>
+      </div>
+      <div class="fi-bar-row">
+        <div class="fi-label">PPI Construction</div>
+        <div class="fi-track"><div class="fi-fill" style="width:6%;background:linear-gradient(90deg,#00d2ff,#3a7bd5)"></div></div>
+        <div class="fi-val">~3%</div>
+      </div>
+      <div class="fi-bar-row">
+        <div class="fi-label">Other (17 features)</div>
+        <div class="fi-track"><div class="fi-fill" style="width:8%;background:rgba(255,255,255,0.15)"></div></div>
+        <div class="fi-val">~4%</div>
+      </div>
+    </div>
+
+    <div class="fi-card">
+      <h3>Regional R² Improvement</h3>
+      <p style="font-size:0.78em;color:#5a6a7a;margin-bottom:14px">Model B vs Model A (ΔR²)</p>
+      <div class="fi-bar-row">
+        <div class="fi-label">West</div>
+        <div class="fi-track"><div class="fi-fill" style="width:100%;background:linear-gradient(90deg,#a855f7,#7c3aed)"></div></div>
+        <div class="fi-val">+0.069</div>
+      </div>
+      <div class="fi-bar-row">
+        <div class="fi-label">Northeast</div>
+        <div class="fi-track"><div class="fi-fill" style="width:78%;background:linear-gradient(90deg,#3a7bd5,#2563eb)"></div></div>
+        <div class="fi-val">+0.054</div>
+      </div>
+      <div class="fi-bar-row">
+        <div class="fi-label">Southeast</div>
+        <div class="fi-track"><div class="fi-fill" style="width:72%;background:linear-gradient(90deg,#00c853,#16a34a)"></div></div>
+        <div class="fi-val">+0.050</div>
+      </div>
+      <div class="fi-bar-row">
+        <div class="fi-label">Midwest</div>
+        <div class="fi-track"><div class="fi-fill" style="width:65%;background:linear-gradient(90deg,#ffa726,#ea580c)"></div></div>
+        <div class="fi-val">+0.045</div>
+      </div>
+      <div class="fi-bar-row">
+        <div class="fi-label">Southwest</div>
+        <div class="fi-track"><div class="fi-fill" style="width:59%;background:linear-gradient(90deg,#ff6b6b,#dc2626)"></div></div>
+        <div class="fi-val">+0.041</div>
+      </div>
+      <p style="font-size:0.72em;color:#4a6a5a;margin-top:14px">West benefits most — highest CCI variance (SF labor: 155 vs OKC: 78)</p>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- Data Sources -->
+  <div class="subsection-title">🗃️ Data Sources</div>
+  <div class="sources-grid">
+    <div class="source-card">
+      <div class="src-icon">🏛️</div>
+      <div class="src-name">FRED (Federal Reserve)</div>
+      <div class="src-detail">10 time series: PPI for construction materials, cement, steel, lumber; GDP, CPI, unemployment, mortgage rates, building permits, housing starts</div>
+      <a href="https://fred.stlouisfed.org/" target="_blank">fred.stlouisfed.org →</a>
+    </div>
+    <div class="source-card">
+      <div class="src-icon">📋</div>
+      <div class="src-name">BLS (Bureau of Labor Statistics)</div>
+      <div class="src-detail">Regional CPI data for 4 census regions — captures local inflation patterns that national CPI misses</div>
+      <a href="https://www.bls.gov/cpi/" target="_blank">bls.gov/cpi →</a>
+    </div>
+    <div class="source-card">
+      <div class="src-icon">🏗️</div>
+      <div class="src-name">RSMeans CCI (Gordian)</div>
+      <div class="src-detail">City-level construction cost indices — material, labor, equipment sub-indices for 50 cities. Modeled from published city ratios</div>
+      <a href="https://www.rsmeans.com/" target="_blank">rsmeans.com →</a>
+    </div>
+    <div class="source-card">
+      <div class="src-icon">🤖</div>
+      <div class="src-name">CatBoost (Yandex)</div>
+      <div class="src-detail">Gradient boosting framework with native categorical encoding — no one-hot needed for city/region/state features</div>
+      <a href="https://catboost.ai/" target="_blank">catboost.ai →</a>
+    </div>
+  </div>
+</div>
+
 <div class="footer">
   CostWise — Built on <a href="https://github.com/realcryptopunk/cost-estimation-ml">CatBoost Regional-Aware Model</a> · 
-  R² = 0.920 · 50 US Cities · 5 Regions
+  R² = 0.920 · 39 US Cities · 5 Regions · <a href="https://realcryptopunk.github.io/cost-estimation-ml/">Research Presentation</a>
 </div>
 
 <script>
