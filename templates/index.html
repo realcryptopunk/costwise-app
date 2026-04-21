@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CostWise — Regional Construction Cost Estimator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0a0a0a;
+    color: #e0e0e0;
+    min-height: 100vh;
+  }
+
+  .header {
+    padding: 30px 40px;
+    border-bottom: 1px solid #1a1a2a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 1.5em;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .logo span { font-weight: 300; opacity: 0.7; }
+
+  .badge {
+    font-size: 0.7em;
+    background: rgba(0,210,255,0.1);
+    color: #00d2ff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(0,210,255,0.2);
+  }
+
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 40px;
+  }
+
+  @media (max-width: 900px) {
+    .main { grid-template-columns: 1fr; padding: 20px; }
+  }
+
+  /* Form Panel */
+  .form-panel {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid #1a2a3a;
+    border-radius: 16px;
+    padding: 30px;
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+  }
+
+  .form-panel h2 {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #00d2ff;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85em;
+  }
+
+  .field { margin-bottom: 20px; }
+
+  .field label {
+    display: block;
+    font-size: 0.85em;
+    font-weight: 500;
+    color: #8892b0;
+    margin-bottom: 6px;
+  }
+
+  .field select, .field input {
+    width: 100%;
+    padding: 10px 14px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid #2a3a4a;
+    border-radius: 8px;
+    color: #e0e0e0;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95em;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .field select:focus, .field input:focus {
+    border-color: #00d2ff;
+  }
+
+  .field select option { background: #0d1117; }
+
+  .btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    margin-top: 8px;
+  }
+
+  .btn:hover { opacity: 0.9; }
+  .btn:active { transform: scale(0.98); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid #2a3a4a;
+    color: #8892b0;
+    margin-top: 10px;
+  }
+
+  .btn-outline:hover { border-color: #00d2ff; color: #00d2ff; }
+
+  /* Results Panel */
+  .results-panel { min-height: 400px; }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    color: #3a4a5a;
+    text-align: center;
+  }
+
+  .empty-state .icon { font-size: 3em; margin-bottom: 15px; }
+  .empty-state p { font-size: 1.1em; line-height: 1.6; }
+
+  /* Result Card */
+  .result-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid #1a2a3a;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 20px;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .result-city { font-size: 1.3em; font-weight: 700; color: #fff; }
+  .result-region { font-size: 0.85em; color: #00d2ff; font-weight: 500; }
+
+  .result-cost {
+    text-align: right;
+  }
+
+  .result-cost .total {
+    font-size: 2em;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .result-cost .per-sqft {
+    font-size: 0.9em;
+    color: #8892b0;
+    margin-top: 2px;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 15px;
+  }
+
+  .metric-box {
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+
+  .metric-box .value {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .metric-box .label {
+    font-size: 0.7em;
+    color: #6a7a8a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+
+  .premium-positive { color: #ff6b6b !important; }
+  .premium-negative { color: #00c853 !important; }
+
+  /* Compare mode */
+  .compare-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+
+  .compare-bar .city-name {
+    width: 140px;
+    font-size: 0.85em;
+    font-weight: 500;
+    color: #c0c8d8;
+    flex-shrink: 0;
+  }
+
+  .compare-bar .bar-track {
+    flex: 1;
+    height: 24px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .compare-bar .bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.5s ease;
+  }
+
+  .compare-bar .cost-label {
+    width: 90px;
+    text-align: right;
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #e0e0e0;
+    flex-shrink: 0;
+  }
+
+  /* CCI breakdown */
+  .cci-breakdown {
+    display: flex;
+    gap: 6px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #141e2a;
+  }
+
+  .cci-item {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+  }
+
+  .cci-item .cci-val {
+    font-size: 1.2em;
+    font-weight: 700;
+  }
+
+  .cci-item .cci-label {
+    font-size: 0.7em;
+    color: #5a6a7a;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .model-tag {
+    display: inline-block;
+    font-size: 0.7em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(0,210,255,0.1);
+    color: #00d2ff;
+    margin-top: 10px;
+  }
+
+  .section-title {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #00d2ff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 30px;
+    color: #2a3a4a;
+    font-size: 0.8em;
+  }
+
+  .footer a { color: #3a7bd5; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">CostWise <span>| Regional Estimator</span></div>
+  <div class="badge">ML-Powered · 50 US Cities</div>
+</div>
+
+<div class="main">
+  <!-- Left: Form -->
+  <div class="form-panel">
+    <h2>📐 Project Details</h2>
+
+    <div class="field">
+      <label>Region</label>
+      <select id="region" onchange="updateCities()">
+        <option value="">Select region...</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>City</label>
+      <select id="city">
+        <option value="">Select city...</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Project Type</label>
+      <select id="project_type">
+        <option value="Commercial">Commercial</option>
+        <option value="Residential">Residential</option>
+        <option value="Industrial">Industrial</option>
+        <option value="Institutional">Institutional</option>
+        <option value="Infrastructure">Infrastructure</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Area (sq ft)</label>
+      <input type="number" id="area_sqft" value="50000" min="500" max="5000000" step="1000">
+    </div>
+
+    <button class="btn" onclick="estimate()">⚡ Estimate Cost</button>
+    <button class="btn btn-outline" onclick="compareAll()">📊 Compare All Cities</button>
+  </div>
+
+  <!-- Right: Results -->
+  <div class="results-panel" id="results">
+    <div class="empty-state">
+      <div class="icon">🏗️</div>
+      <p>Select a city and project type,<br>then hit <strong>Estimate Cost</strong> to get started.</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  CostWise — Built on <a href="https://github.com/realcryptopunk/cost-estimation-ml">CatBoost Regional-Aware Model</a> · 
+  R² = 0.920 · 50 US Cities · 5 Regions
+</div>
+
+<script>
+let citiesData = {};
+
+// Load cities on page load
+fetch('/api/cities')
+  .then(r => r.json())
+  .then(data => {
+    citiesData = data;
+    const regionSel = document.getElementById('region');
+    Object.keys(data).sort().forEach(region => {
+      const opt = document.createElement('option');
+      opt.value = region;
+      opt.textContent = `${region} (${data[region].length} cities)`;
+      regionSel.appendChild(opt);
+    });
+  });
+
+function updateCities() {
+  const region = document.getElementById('region').value;
+  const citySel = document.getElementById('city');
+  citySel.innerHTML = '<option value="">Select city...</option>';
+  
+  if (region && citiesData[region]) {
+    citiesData[region]
+      .sort((a, b) => b.weighted_cci - a.weighted_cci)
+      .forEach(city => {
+        const opt = document.createElement('option');
+        opt.value = city.name;
+        opt.textContent = `${city.name} (CCI: ${city.weighted_cci})`;
+        citySel.appendChild(opt);
+      });
+  }
+}
+
+function formatCurrency(n) {
+  if (n >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+  return '$' + n.toFixed(0);
+}
+
+function estimate() {
+  const city = document.getElementById('city').value;
+  const project_type = document.getElementById('project_type').value;
+  const area_sqft = document.getElementById('area_sqft').value;
+  
+  if (!city) { alert('Please select a city'); return; }
+  
+  fetch('/api/estimate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ city, project_type, area_sqft })
+  })
+  .then(r => r.json())
+  .then(data => {
+    const premiumClass = data.regional_premium_pct >= 0 ? 'premium-positive' : 'premium-negative';
+    const premiumSign = data.regional_premium_pct >= 0 ? '+' : '';
+    
+    document.getElementById('results').innerHTML = `
+      <div class="section-title">💰 Cost Estimate</div>
+      <div class="result-card">
+        <div class="result-header">
+          <div>
+            <div class="result-city">${data.city}</div>
+            <div class="result-region">${data.region} · ${data.state}</div>
+          </div>
+          <div class="result-cost">
+            <div class="total">${formatCurrency(data.total_cost)}</div>
+            <div class="per-sqft">$${data.cost_per_sqft.toFixed(2)} / sqft</div>
+          </div>
+        </div>
+        
+        <div class="metrics-grid">
+          <div class="metric-box">
+            <div class="value">${data.area_sqft.toLocaleString()}</div>
+            <div class="label">Sq Ft</div>
+          </div>
+          <div class="metric-box">
+            <div class="value">${data.project_type}</div>
+            <div class="label">Type</div>
+          </div>
+          <div class="metric-box">
+            <div class="value">${data.weighted_cci}</div>
+            <div class="label">Weighted CCI</div>
+          </div>
+          <div class="metric-box">
+            <div class="value ${premiumClass}">${premiumSign}${data.regional_premium_pct}%</div>
+            <div class="label">vs National Avg</div>
+          </div>
+          <div class="metric-box">
+            <div class="value">$${data.national_avg_cost.toFixed(2)}</div>
+            <div class="label">National $/sqft</div>
+          </div>
+        </div>
+        
+        <div class="cci-breakdown">
+          <div class="cci-item">
+            <div class="cci-val" style="color:#3a7bd5;">${data.mat_cci}</div>
+            <div class="cci-label">Material CCI</div>
+          </div>
+          <div class="cci-item">
+            <div class="cci-val" style="color:#00d2ff;">${data.labor_cci}</div>
+            <div class="cci-label">Labor CCI</div>
+          </div>
+          <div class="cci-item">
+            <div class="cci-val" style="color:#00c853;">${data.equip_cci}</div>
+            <div class="cci-label">Equipment CCI</div>
+          </div>
+        </div>
+        
+        <div class="model-tag">🤖 ${data.model_used}</div>
+      </div>
+    `;
+  });
+}
+
+function compareAll() {
+  const project_type = document.getElementById('project_type').value;
+  const area_sqft = document.getElementById('area_sqft').value;
+  
+  // Get all cities
+  const allCities = [];
+  Object.values(citiesData).forEach(cities => {
+    cities.forEach(c => allCities.push(c.name));
+  });
+  
+  fetch('/api/compare', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ cities: allCities, project_type, area_sqft })
+  })
+  .then(r => r.json())
+  .then(data => {
+    const maxCost = Math.max(...data.map(d => d.cost_per_sqft));
+    
+    const regionColors = {
+      'Northeast': '#3a7bd5',
+      'Southeast': '#00c853',
+      'Midwest': '#ffa726',
+      'Southwest': '#ff6b6b',
+      'West': '#a855f7',
+    };
+    
+    let html = `<div class="section-title">📊 All Cities Compared — ${project_type} · ${parseInt(area_sqft).toLocaleString()} sqft</div>`;
+    
+    data.forEach(d => {
+      const pct = (d.cost_per_sqft / maxCost) * 100;
+      const color = regionColors[d.region] || '#00d2ff';
+      html += `
+        <div class="compare-bar">
+          <div class="city-name">${d.city.split(',')[0]}</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:${pct}%; background:${color};"></div>
+          </div>
+          <div class="cost-label">$${d.cost_per_sqft.toFixed(0)}/sqft</div>
+        </div>
+      `;
+    });
+    
+    // Legend
+    html += '<div style="display:flex;gap:15px;margin-top:15px;flex-wrap:wrap;">';
+    Object.entries(regionColors).forEach(([region, color]) => {
+      html += `<span style="font-size:0.75em;color:${color};">■ ${region}</span>`;
+    });
+    html += '</div>';
+    
+    document.getElementById('results').innerHTML = html;
+  });
+}
+</script>
+
+</body>
+</html>
